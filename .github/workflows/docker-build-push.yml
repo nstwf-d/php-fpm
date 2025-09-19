@@ -13,8 +13,6 @@ jobs:
   build-push:
     if: github.event_name != 'pull_request'
 
-    runs-on: self-hosted
-
     strategy:
       matrix:
         include:
