@@ -3,6 +3,7 @@ ARG VERSION=8.4
 FROM php:${VERSION}-fpm-alpine
 
 # define variables
+ARG BUILD_ENV
 ARG APP_PATH="/app"
 ENV APP_PATH=${APP_PATH}
 
@@ -32,6 +33,7 @@ RUN curl -sSLf https://github.com/mlocati/docker-php-extension-installer/release
 
 # install extensions
 RUN install-php-extensions \
+    amqp \
     bcmath \
     bz2 \
     calendar \
@@ -50,15 +52,17 @@ RUN install-php-extensions \
     sodium \
     sockets \
     xsl \
-    zip \
-    xdebug
+    zip
+
+RUN if [ "$BUILD_ENV" = "dev" ]; then \
+        install-php-extensions xdebug; \
+    fi
 
 # remove unused deps
 RUN apk del $PHPIZE_DEPS
 
 # install composer
-RUN apk add --no-cache curl \
-  && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
   && chmod +x /usr/local/bin/composer
 
 # create user
