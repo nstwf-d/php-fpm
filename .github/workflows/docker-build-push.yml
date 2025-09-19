@@ -43,7 +43,7 @@ jobs:
           - '8.3'
           - '8.4'
 
-    uses: nstwf-docker/docker-ci/.github/workflows/docker-build-push-pr.yaml@main
+    uses: nstwf-d/docker-ci/.github/workflows/docker-build-push-pr.yaml@main
     secrets: inherit
     with:
       image_version: ${{ matrix.version }}
