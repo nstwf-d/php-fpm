@@ -14,6 +14,8 @@ ARG GROUP_ID=1000
 # add packages
 RUN apk add --no-cache \
     $PHPIZE_DEPS \
+    g++ \
+    linux-headers \
     icu-dev \
     libxml2-dev \
     oniguruma-dev \
